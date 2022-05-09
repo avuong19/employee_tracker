@@ -1,0 +1,2 @@
+CREATE DATABASE work;
+USE work;
