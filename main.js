@@ -51,6 +51,15 @@ const promptUser = () => {
         if (answers.choices === 'add a department') {
             addDept();
         }
+        if (answers.choices === 'add a role') {
+            addRole();
+        }
+        if (answers.choices === 'add an employee') {
+            addEmployee();
+        }
+        if (answers.choices === 'update an employee role') {
+            updateEmployeeRole();
+        }
 
     })
 }
@@ -102,6 +111,134 @@ const addDept =()=>{
         db.query(sql,res.addDept,(err,res)=>{
             if (err) throw err;
             console.table(res);
+            viewDepartment();
+            promptUser();
+        })
+    })
+}
+const addRole =()=>{
+    inquirer.prompt([
+        {
+        name: 'addTitle',
+        type: 'input',
+        message: 'Please type in a new role title (Require)',
+        validate: addTitleInput => {
+            if (addTitleInput) {
+              return true;
+            } else {
+              console.log('Please enter a new role title !');
+              return false;
+            }
+          }
+
+    },
+    {
+        name: 'addSalary',
+        type: 'input',
+        message: 'Please type in this new role salary (Require)',
+        validate: addSalaryInput => {
+            if (addSalaryInput) {
+              return true;
+            } else {
+              console.log('Please enter this new role salary !');
+              return false;
+            }
+          }
+
+    },
+    {
+        name: 'addDeptId',
+        type: 'input',
+        message: 'What department does this role belonges to. Please enter its id',
+        validate: addDeptId => {
+            if (addDeptId) {
+              return true;
+            } else {
+              console.log('Please enter a valid id !');
+              return false;
+            }
+          }
+
+    },
+])
+    .then (res =>{
+        const sql ='INSERT INTO role (title, salary, dept_id) VALUES(?, ?, ?)';
+        db.query(sql,[res.addTitle,res.addSalary,res.addDeptId],(err,res)=>{
+            if (err) throw err;
+            console.log('-----');
+            console.table(res);
+            viewRole();
+            promptUser();
+        })
+    })
+}
+const addEmployee =()=>{
+    inquirer.prompt([
+        {
+        name: 'addFirstName',
+        type: 'input',
+        message: 'Please type in employees first name (Required)',
+        validate: addFirstNameInput => {
+            if (addFirstNameInput) {
+              return true;
+            } else {
+              console.log('Please enter employees first name !');
+              return false;
+            }
+          }
+
+    },
+    {
+        name: 'addLastName',
+        type: 'input',
+        message: 'Please type in employees last name (Require)',
+        validate: addLastNameInput => {
+            if (addLastNameInput) {
+              return true;
+            } else {
+              console.log('Please enter employees last name !');
+              return false;
+            }
+          }
+
+    },
+    
+    {
+        name: 'addRoleId',
+        type: 'input',
+        message: 'What is this employees role?. Please enter its id',
+        validate: addRoleId => {
+            if (addRoleId) {
+              return true;
+            } else {
+              console.log('Please enter a valid id !');
+              return false;
+            }
+          }
+
+    },
+    {
+        name: 'addManagerId',
+        type: 'input',
+        message: ' Please enter this employees manager id',
+        validate: addRoleId => {
+            if (addRoleId) {
+              return true;
+            } else {
+              console.log('Please enter a valid id !');
+              return false;
+            }
+          }
+
+    },
+])
+    .then (res =>{
+        const sql ='INSERT INTO employee (first_name, last_name, role_id,  mangager_id) VALUES(?, ?, ?, ?)';
+        db.query(sql,[res.addFirstName,res.addLastName,res.addRoleId,res.addManagerId],(err,res)=>{
+            if (err) throw err;
+            console.log('-----');
+            console.table(res);
+            viewEmployee();
             promptUser();
         })
     })
