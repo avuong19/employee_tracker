@@ -10,7 +10,7 @@ const db = mysql.createConnection({
     database: 'work'
 }, console.log('Connected to the work database.'));
 
-//require('dotenv').config();
+
 const cTable = require('console.table');
 
 db.connect(function(){
