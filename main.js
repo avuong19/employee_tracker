@@ -243,6 +243,36 @@ const addEmployee =()=>{
         })
     })
 }
+const updateEmployeeRole =() =>{
+    
+        inquirer.prompt([
+            {
+                name:'employeeId',
+                type:'input',
+                message:'Enter Employee ID',
+                
+            },
+            {
+                name:'pickedRole',
+                type:'input',
+                message:'Choose a new role',
+                
+            },
+        ])
+        .then (res =>{
+            const sql ='Update employee set role_id = ? where id=?;'
+            db.query(sql,[res.pickedRole,res.employeeId],(err,res)=>{
+                if (err) throw err;
+                console.log('-----');
+                console.table(res);
+                viewEmployee();
+                promptUser();
+            })
+        })
+    }
+
+
+
 
 
 
